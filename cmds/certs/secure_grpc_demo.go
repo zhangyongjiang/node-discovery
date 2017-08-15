@@ -12,7 +12,7 @@ import (
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials"
 
-	testpb "sancus/core/auth/grpc"
+	testpb "discovery/core/auth/grpc"
 	"discovery/core/auth"
 	//"encoding/pem"
 	//"crypto/ecdsa"

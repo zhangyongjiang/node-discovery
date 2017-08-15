@@ -1,8 +1,6 @@
 package auth
 
 import (
-	"sancus/protos/common"
-	"sancus/protos/communication"
 	"encoding/base64"
 	"crypto/sha256"
 	"github.com/golang/protobuf/proto"
@@ -17,21 +15,6 @@ import (
 	"golang.org/x/net/context"
 	"google.golang.org/grpc/credentials"
 )
-
-func HashOfTransaction(b *common.Transaction) string {
-	return HashOfTransactionReq(b.EndorsedProposal.Proposal.Tran.TransactionReq)
-}
-
-func HashOfTransactionReq(b *common.TransactionReq) string {
-	return Hash64(b)
-}
-
-func HashOfBlock(b *common.Block, trans []*common.Transaction) string {
-	return Hash64(&communication.BlockWithTrans{
-		Block: b,
-		Trans: trans,
-	})
-}
 
 func Hash(pb proto.Message) []byte {
 	bytes, _ := proto.Marshal(pb)

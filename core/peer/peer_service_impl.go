@@ -2,7 +2,7 @@ package peer
 
 import (
 	"net"
-	"sancus/core/auth"
+	"discovery/core/auth"
 	"fmt"
 	"golang.org/x/net/context"
 	"crypto/tls"

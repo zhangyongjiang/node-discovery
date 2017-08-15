@@ -4,12 +4,6 @@ import (
 	"net/http"
 	"fmt"
 	"strings"
-	"encoding/hex"
-	"golang.org/x/net/context"
-	"google.golang.org/grpc/peer"
-	"crypto/x509"
-	"google.golang.org/grpc/credentials"
-	gw "sancus/protos/communication"
 )
 
 var skip = []string{
@@ -39,29 +33,5 @@ func AuthenticationHandler(h http.Handler) http.Handler {
 		}
 		h.ServeHTTP(w ,r)
 	})
-}
-
-func RetrieveClientFromContext(ctx context.Context) (*gw.Client)  {
-	peer, ok := peer.FromContext(ctx)
-	if !ok {
-		return nil
-	}
-
-	client := new(gw.Client)
-	if peer == nil || peer.AuthInfo == nil {
-		return client
-	}
-
-	tlsInfo := peer.AuthInfo.(credentials.TLSInfo)
-	v := tlsInfo.State.VerifiedChains[0][0].Subject.CommonName
-	fmt.Printf("%v - %v\n", peer.Addr.String(), v)
-	for _, v := range tlsInfo.State.PeerCertificates {
-		pubkey, err := x509.MarshalPKIXPublicKey(v.PublicKey)
-		if err != nil {
-			client.Id = hex.EncodeToString(pubkey)
-		}
-	}
-
-	return client
 }
 
